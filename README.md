@@ -15,7 +15,7 @@ coming soon
 
 ## Citation
 If you find the code useful for your research, please cite:
-'''
+```
 @inproceedings{Hayashida2020MPM,
   author = {Hayashida, Junya and Nishimura, Kazuya and Bise, Ryoma}
   title = {MPM: Joint Representation of Motion and Position Map for Cell Tracking},
@@ -23,4 +23,4 @@ If you find the code useful for your research, please cite:
   month = {June},
   year = {2020}
 }
-'''
+```
