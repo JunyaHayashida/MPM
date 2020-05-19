@@ -49,6 +49,7 @@ if __name__ == "__main__":
     parser.add_argument('--z_value', type=float, default=5)
     tp = lambda x: list(map(int, x.split(',')))
     parser.add_argument('--intervals', type=tp, default=[1], help='frame intervals, please split with commas')
+    parser.add_argument('--save_name', type=str, default='mpm')
     args = parser.parse_args()
 
     os.makedirs(args.save_path, exist_ok=True)
@@ -59,6 +60,7 @@ if __name__ == "__main__":
     frames = np.unique(track_let[:, 0])
     ids = np.unique(track_let[:, 1])
     itvs = args.intervals
+    save_name = args.save_name
 
     for itv in itvs:
         print(f'interval {itv}')
@@ -116,6 +118,6 @@ if __name__ == "__main__":
             result_vector = np.concatenate((result_y[:, :, None], result_x[:, :, None], result_z[:, :, None]), axis=-1)
             output.append(result_vector)
         output = np.array(output).astype('float16')
-        save_path_vector = os.path.join(args.save_path, f'mpm_{itv:02}_{blur_range:03}_{z_value:03}.npy')
+        save_path_vector = os.path.join(args.save_path, f'{save_name}_{blur_range:03}_{z_value:03}_{itv:02}.npy')
         np.save(save_path_vector, output)
     print('finished')
