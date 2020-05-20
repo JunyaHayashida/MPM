@@ -4,13 +4,13 @@ import torch
 from torch import optim
 import datetime
 from mpm_eval import eval_net
-from utils import RandomFlipper4MPM
+from utils.utils import RandomFlipper4MPM
 from utils.losses import RMSE_Q_NormLoss
-from mpm_loader import MPMLoader
+from utils.mpm_loader import MPMLoader
 from torch.utils.data import DataLoader
 from torchvision import transforms
 import argparse
-from unet import UNet
+from NN_model import MPMNet
 
 def writeDetail(dir_checkpoint, net, batch_size, optimizer, lr, dataset):
     os.makedirs(dir_checkpoint, exist_ok=True)
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     gpu = args.gpu
     lr = args.lr
 
-    net = UNet(2, 3)
+    net = MPMNet(2, 3)
     optimizer = optim.Adam(net.parameters(), lr=lr)
     criterion = RMSE_Q_NormLoss(0.8)
     dir_checkpoint = 'checkpoints/train_{0:%Y%m%d%H%M}/'.format(datetime.datetime.now())

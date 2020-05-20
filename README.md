@@ -5,9 +5,9 @@ $ python3 mpm_genarator.py sample/sample_tracklet.txt sample/sample_img/000.png 
 ```
 
 ## Train MPMs
-coming soon
-
-## Estimate MPMs
+```
+$ python3 mpm_train.py 100 40
+```
 coming soon
 
 ## Track cells
