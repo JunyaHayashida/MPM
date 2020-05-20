@@ -6,7 +6,7 @@ $ python3 mpm_genarator.py sample/sample_tracklet.txt sample/sample_img/000.png 
 
 ## Train MPMs
 ```
-$ python3 mpm_train.py 100 40
+$ python3 mpm_train.py 100 40 sample/train
 ```
 coming soon
 
