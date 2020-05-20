@@ -1,23 +1,23 @@
 # MPM: Motion and Position Map 
 ## Genarate sample MPMs
-arguments:
-    1. tracklet path
-    2. sample image path
-    3. output directory path
+### Arguments
+1. tracklet path
+2. sample image path
+3. output directory path
+### Example
 ```
 $ python3 mpm_genarator.py sample/sample_tracklet.txt sample/sample_img/000.png sample/output --intervals 1,3,5
 ```
 
 ## Train MPMs
-arguments:
-    1. epochs
-    2. batch size
-    3. dataset directory path
+### Arguments
+1. epochs  
+2. batch size  
+3. dataset directory path
+### Example   
 ```
 $ python3 mpm_train.py 100 40 sample/train
 ```
-coming soon
-
 ## Track cells
 coming soon
 
