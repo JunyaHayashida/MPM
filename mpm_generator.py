@@ -10,29 +10,29 @@ from tqdm import tqdm
 from scipy.ndimage.filters import gaussian_filter
 
 
-def compute_vector(pre, nxt, same_count, result_l, result):
-    img_l = zeros[:, :, 0].copy()  # likelihood image
-    img_l[nxt[1], nxt[0]] = 255
-    img_l = gaussian_filter(img_l, sigma=6, cval=sigma)
-    img_l = img_l / img_l.max()
-    points = np.where(img_l > 0)
+def compute_vector(cur, nxt, same_count, result_l, result):
+    img_lm = zeros[:, :, 0].copy()  # likelihood image
+    img_lm[nxt[1], nxt[0]] = 255
+    img_lm = gaussian_filter(img_lm, sigma=sigma)
+    img_lm = img_lm / img_lm.max()
+    points = np.where(img_lm > 0)
     img = zeros.copy()
     for y, x in zip(points[0], points[1]):
-        v3d = pre - [x, y]
+        v3d = cur - [x, y]
         v3d = np.append(v3d, z_value)
-        v3d = v3d / np.linalg.norm(v3d) * img_l[y, x]
+        v3d = v3d / np.linalg.norm(v3d) * img_lm[y, x]
         img[y, x] = np.array([v3d[1], v3d[0], v3d[2]])
 
-    img_i = result_l - img_l
+    img_i = result_l - img_lm
     result[img_i < 0] = img[img_i < 0]
 
-    img_i = img_l.copy()
+    img_i = img_lm.copy()
     img_i[img_i == 0] = 2
     img_i = result_l - img_i
     same_count[img_i == 0] += 1
     result[img_i < 0] += img[img_i < 0]
 
-    result_l = np.maximum(result_l, img_l)
+    result_l = np.maximum(result_l, img_lm)
     return same_count, result_l, result
 
 
