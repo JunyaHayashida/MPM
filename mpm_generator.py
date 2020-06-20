@@ -13,7 +13,7 @@ from scipy.ndimage.filters import gaussian_filter
 def compute_vector(cur, nxt, same_count, result_l, result):
     img_lm = zeros[:, :, 0].copy()  # likelihood image
     img_lm[nxt[1], nxt[0]] = 255
-    img_lm = gaussian_filter(img_lm, sigma=sigma)
+    img_lm = gaussian_filter(img_lm, sigma=sigma, mode='constant')
     img_lm = img_lm / img_lm.max()
     points = np.where(img_lm > 0)
     img = zeros.copy()
