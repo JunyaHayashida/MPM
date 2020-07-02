@@ -30,7 +30,7 @@ def compute_vector(cur, nxt, same_count, result_l, result):
     img_i[img_i == 0] = 2
     img_i = result_l - img_i
     same_count[img_i == 0] += 1
-    result[img_i < 0] += img[img_i < 0]
+    result[img_i == 0] += img[img_i == 0]
 
     result_l = np.maximum(result_l, img_lm)
     return same_count, result_l, result
