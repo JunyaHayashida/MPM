@@ -1,12 +1,11 @@
 # MPM: Motion and Position Map 
 ## Genarate sample MPMs
 ### Arguments
-1. tracklet path
-2. sample image path
-3. output directory path
+You can set up input path/output path/parameters from 
+[config/mpm_generator.yaml](https://github.com/JunyaHayashida/MPM/blob/master/config/mpm_generator.yaml)
 ### Example
 ```
-$ python3 mpm_genarator.py sample/sample_tracklet.txt sample/sample_img/000.png sample/output --intervals 1,3,5
+$ python3 mpm_genarator.py
 ```
 
 ## Train MPMs

@@ -1,6 +1,6 @@
 file:
   tracklet: 'data_sample/sample_tracklet.txt'
-  target: 'data_sample/train/img/0000.png'
+  target: 'data_sample/train/img/000.png'
 
 path:
   save_path: 'data_sample/train/mpm'

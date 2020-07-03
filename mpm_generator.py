@@ -9,10 +9,7 @@ import argparse
 from tqdm import tqdm
 from scipy.ndimage.filters import gaussian_filter
 import hydra
-
-
-def get_params(cfg):
-    print(cfg.pretty())
+from hydra.utils import to_absolute_path
 
 def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma):
     img_lm = zeros[:, :, 0].copy()  # likelihood image
@@ -39,11 +36,12 @@ def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma
     result_l = np.maximum(result_l, img_lm)
     return same_count, result_l, result
 
+
 @hydra.main(config_path='config/mpm_generator.yaml')
 def main(cfg):
-    track_let = np.loadtxt(cfg.file.tracklet).astype('int')  # 5 columns [frame, id, x, y, parent_id]
-    image_size = cv2.imread(cfg.file.target).shape
-    save_path = cfg.path.save_path
+    track_let = np.loadtxt(to_absolute_path(cfg.file.tracklet)).astype('int')  # 5 columns [frame, id, x, y, parent_id]
+    image_size = cv2.imread(to_absolute_path(cfg.file.target)).shape
+    save_path = to_absolute_path(cfg.path.save_path)
     os.makedirs(save_path, exist_ok=True)
     z_value = cfg.param.z_value
     sigma = cfg.param.sigma
@@ -98,5 +96,6 @@ def main(cfg):
             np.save(save_path, result.astype('float32'))
     print('finished')
 
-if __name__ =='__main__':
+
+if __name__ == '__main__':
     main()

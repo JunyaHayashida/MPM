@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa406a2c-62d4-4583-af9d-5a1cf491b845" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/mpm_generator.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NN_model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/NN_model/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NN_model/unet_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/NN_model/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NN_model/unet_parts.py" beforeDir="false" afterPath="$PROJECT_DIR$/NN_model/model_parts.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpm_eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_eval.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/mpm_generator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/mpm_generator.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mpm_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpm_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/mpm_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mpm_loader.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -136,17 +131,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/mpm_generator.py</url>
-          <line>46</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mpm_generator.py</url>
-          <line>14</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/mpm_generator.py</url>
-          <line>101</line>
+          <line>100</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
