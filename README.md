@@ -1,4 +1,10 @@
 # MPM: Motion and Position Map 
+## Requirements
+
+- Python3.6
+- PyTorch
+- OpenCV
+- Hydra (hydra-core)
 ## Genarate sample MPMs
 ### Arguments
 You can set up input path/output path/parameters from 
