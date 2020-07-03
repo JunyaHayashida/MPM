@@ -10,6 +10,54 @@ $ python3 mpm_genarator.py sample/sample_tracklet.txt sample/sample_img/000.png 
 ```
 
 ## Train MPMs
+### Preparation
+Please prepare your data as follows
+
+<details><summary>current dir</summary><div>
+
+```
+./data
+    ├── eval                        # For evaluation
+    │   ├── img
+    │   │   ├── 000.png
+    │   │   ├── 001.png
+    │   │   ├── 002.png
+    │   │   ├── :
+    │   │   ├── m-1.png
+    │   │   └── m.png
+    │   └── mpm
+    │       ├── 001                 # Any frame interval
+    │       │   ├── 0000.npy
+    │       │   ├── :
+    │       │   └── m-1.npy
+    │       └── 003                 # Any frame interval
+    │       │   ├── 0000.npy
+    │       │   ├── :
+    │       │   └── m-3.npy
+    │       └── :                   # Any frame interval
+    │            ├── :
+    └── train                       # For training
+        ├── img
+        │   ├── 000.png
+        │   ├── 001.png
+        │   ├── 002.png
+        │   ├── :
+        │   ├── m-1.png
+        │   └── m.png
+        └── mpm
+            ├── 001                 # Any frame interval
+            │   ├── 0000.npy
+            │   ├── :
+            │   └── m-1.npy
+            └── 003                 # Any frame interval
+            │   ├── 0000.npy
+            │   ├── :
+            │   └── m-3.npy
+            └── :                   # Any frame interval
+                 ├── :
+```
+</div></details>
+
 ### Arguments
 1. epochs  
 2. batch size  
