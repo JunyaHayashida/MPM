@@ -1,0 +1,11 @@
+file:
+  tracklet: 'data_sample/sample_tracklet.txt'
+  target: 'data_sample/train/img/0000.png'
+
+path:
+  save_path: 'data_sample/train/mpm'
+
+param:
+  z_value: 5
+  sigma: 6
+  itvs: [1,3]

@@ -8,9 +8,13 @@ import os
 import argparse
 from tqdm import tqdm
 from scipy.ndimage.filters import gaussian_filter
+import hydra
 
 
-def compute_vector(cur, nxt, same_count, result_l, result):
+def get_params(cfg):
+    print(cfg.pretty())
+
+def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma):
     img_lm = zeros[:, :, 0].copy()  # likelihood image
     img_lm[nxt[1], nxt[0]] = 255
     img_lm = gaussian_filter(img_lm, sigma=sigma, mode='constant')
@@ -35,33 +39,25 @@ def compute_vector(cur, nxt, same_count, result_l, result):
     result_l = np.maximum(result_l, img_lm)
     return same_count, result_l, result
 
+@hydra.main(config_path='config/mpm_generator.yaml')
+def main(cfg):
+    track_let = np.loadtxt(cfg.file.tracklet).astype('int')  # 5 columns [frame, id, x, y, parent_id]
+    image_size = cv2.imread(cfg.file.target).shape
+    save_path = cfg.path.save_path
+    os.makedirs(save_path, exist_ok=True)
+    z_value = cfg.param.z_value
+    sigma = cfg.param.sigma
+    itvs = cfg.param.itvs
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('tracklet', help='path of tracklet')
-    parser.add_argument('target_image', help='path of one sample image of the target')
-    parser.add_argument('save_path', default='./data_sample/train/mpm', help='save path for output(s)')
-    parser.add_argument('--z_value', type=float, default=5, help='unit of time-axis')
-    parser.add_argument('--sigma', type=int, default=6, help='sigma of gaussian filter')
-    tp = lambda x: list(map(int, x.split(',')))
-    parser.add_argument('--intervals', type=tp, default=[1], help='frame intervals, please split with commas')
-    args = parser.parse_args()
-
-    os.makedirs(args.save_path, exist_ok=True)
-    z_value = args.z_value
-    sigma = args.sigma
-    track_let = np.loadtxt(args.tracklet).astype('int')  # 5 columns [frame, id, x, y, parent_id]
-    image_size = cv2.imread(args.target_image).shape
     frames = np.unique(track_let[:, 0])
     ids = np.unique(track_let[:, 1])
-    itvs = args.intervals
 
     zeros = np.zeros((image_size[0], image_size[1], 3))
     ones = np.ones((image_size[0], image_size[1]))
 
     for itv in itvs:
         print(f'interval {itv}')
-        save_dir = os.path.join(args.save_path, f'{itv:03}')
+        save_dir = os.path.join(save_path, f'{itv:03}')
         os.makedirs(save_dir, exist_ok=True)
         output = []
 
@@ -84,7 +80,7 @@ if __name__ == "__main__":
 
                     same_count, result_lm, result = compute_vector(data, dnxt, same_count,
                                                                    result_lm,
-                                                                   result)
+                                                                   result, zeros, z_value, sigma)
 
                 elif ((index_current == 0) & (index_next != 0) & (par_id != -1)):
                     try:
@@ -92,7 +88,7 @@ if __name__ == "__main__":
                         dnxt = track_let[(track_let[:, 0] == i + itv) & (track_let[:, 1] == j)][0][2:-1]
                         same_count, result_lm, result = compute_vector(data, dnxt, same_count,
                                                                        result_lm,
-                                                                       result)
+                                                                       result, zeros, z_value, sigma)
                     except IndexError:
                         print('Error: no parent')
                         print(track_let[(track_let[:, 0] == i + itv) & (track_let[:, 1] == j)][0])
@@ -101,3 +97,6 @@ if __name__ == "__main__":
             save_path = os.path.join(save_dir, f'{idx:04}.npy')
             np.save(save_path, result.astype('float32'))
     print('finished')
+
+if __name__ =='__main__':
+    main()

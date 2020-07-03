@@ -1,1 +1,1 @@
-from .unet_model import *
+from .models import MPMNet
