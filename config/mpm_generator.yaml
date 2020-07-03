@@ -1,9 +1,9 @@
 file:
   tracklet: 'data_sample/sample_tracklet.txt'
-  target: 'data_sample/train/img/000.png'
+  target: 'data_sample/train_img/000.png'
 
 path:
-  save_path: 'data_sample/train/mpm'
+  save_path: 'data_sample/train_mpm'
 
 param:
   z_value: 5
