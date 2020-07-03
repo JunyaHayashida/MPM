@@ -27,7 +27,7 @@ def compute_vector(cur, nxt, same_count, result_l, result):
     result[img_i < 0] = img[img_i < 0]
 
     img_i = img_lm.copy()
-    img_i[img_i == 0] = 2
+    img_i[img_i == 0] = 100
     img_i = result_l - img_i
     same_count[img_i == 0] += 1
     result[img_i == 0] += img[img_i == 0]
@@ -40,12 +40,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('tracklet', help='path of tracklet')
     parser.add_argument('target_image', help='path of one sample image of the target')
-    parser.add_argument('save_path', help='save path for output(s)')
-    parser.add_argument('--z_value', type=float, default=5)
-    parser.add_argument('--sigma', type=int, default=6)
+    parser.add_argument('save_path', default='./data_sample/train/mpm', help='save path for output(s)')
+    parser.add_argument('--z_value', type=float, default=5, help='unit of time-axis')
+    parser.add_argument('--sigma', type=int, default=6, help='sigma of gaussian filter')
     tp = lambda x: list(map(int, x.split(',')))
     parser.add_argument('--intervals', type=tp, default=[1], help='frame intervals, please split with commas')
-    parser.add_argument('--save_name', type=str, default='mpm')
     args = parser.parse_args()
 
     os.makedirs(args.save_path, exist_ok=True)
@@ -56,13 +55,14 @@ if __name__ == "__main__":
     frames = np.unique(track_let[:, 0])
     ids = np.unique(track_let[:, 1])
     itvs = args.intervals
-    save_name = args.save_name
 
     zeros = np.zeros((image_size[0], image_size[1], 3))
     ones = np.ones((image_size[0], image_size[1]))
 
     for itv in itvs:
         print(f'interval {itv}')
+        save_dir = os.path.join(args.save_path, f'{itv:03}')
+        os.makedirs(save_dir, exist_ok=True)
         output = []
 
         par_id = -1  # parent id
@@ -98,8 +98,6 @@ if __name__ == "__main__":
                         print(track_let[(track_let[:, 0] == i + itv) & (track_let[:, 1] == j)][0])
 
             result = (result / same_count[:, :, None])
-            output.append(result)
-        output = np.array(output).astype('float16')
-        save_path_vector = os.path.join(args.save_path, f'{save_name}_{z_value:03}_{itv:02}.npy')
-        np.save(save_path_vector, output)
+            save_path = os.path.join(save_dir, f'{idx:04}.npy')
+            np.save(save_path, result.astype('float32'))
     print('finished')
