@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa406a2c-62d4-4583-af9d-5a1cf491b845" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/config/mpm_train.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpm_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/mpm_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mpm_loader.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

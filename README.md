@@ -16,44 +16,30 @@ Please prepare your data as follows
 
 ```
 ./data
-    ├── eval                        # For evaluation
-    │   ├── img
-    │   │   ├── 000.png
-    │   │   ├── 001.png
-    │   │   ├── 002.png
-    │   │   ├── :
-    │   │   ├── m-1.png
-    │   │   └── m.png
-    │   └── mpm
-    │       ├── 001                 # Any frame interval
-    │       │   ├── 0000.npy
-    │       │   ├── :
-    │       │   └── m-1.npy
-    │       └── 003                 # Any frame interval
-    │       │   ├── 0000.npy
-    │       │   ├── :
-    │       │   └── m-3.npy
-    │       └── :                   # Any frame interval
-    │            ├── :
-    └── train                       # For training
-        ├── img
-        │   ├── 000.png
-        │   ├── 001.png
-        │   ├── 002.png
-        │   ├── :
-        │   ├── n-1.png
-        │   └── n.png
-        └── mpm
-            ├── 001                 # Any frame interval
-            │   ├── 0000.npy
-            │   ├── :
-            │   └── n-1.npy
-            └── 003                 # Any frame interval
-            │   ├── 0000.npy
-            │   ├── :
-            │   └── n-3.npy
-            └── :                   # Any frame interval
-                 ├── :
+    ├── train_img                   # n frame time-lapse images
+    │   ├── 0000.png                # Image name with '0' characters padded to the left
+    │   ├── 0001.png
+    │   ├── :.png
+    │   ├── n-1.png
+    │   └── n.png
+    └── train_mpm
+    │   ├── 001                     # Each frame-interval of MPM
+    │   │   ├── 0000.npy            # A.npy is MPM between "frame A" and "frame A + interval"
+    │   │   ├── 0001.npy
+    │   │   ├── 0002.npy
+    │   │   ├── :.npy
+    │   │   ├── n-2.npy
+    │   │   └── n-1.npy
+    │   └── m
+    │       ├── 0000.npy
+    │       ├── 0001.npy
+    │       ├── :.npy
+    │       ├── n-m-1.npy
+    │       └── n-m.npy
+    ├── eval_img
+    │       (Same structure of train_img. Without eval_img, part of train_img is used for evaluation)
+    ├── eval_mpm
+             (Same structure of train_mpm.)
 ```
 </div></details>
 
@@ -63,7 +49,7 @@ You can set up input path/output path/parameters from
 
 ### Example   
 ```
-$ python3 mpm_train.py 100 40 sample/train
+$ python3 mpm_train.py
 ```
 ## Track cells
 coming soon
