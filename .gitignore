@@ -1,5 +1,6 @@
 *.npy
 *.pth
 *.log
+*.pyc
 outputs/
 data/
