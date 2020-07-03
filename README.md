@@ -41,26 +41,26 @@ Please prepare your data as follows
         │   ├── 001.png
         │   ├── 002.png
         │   ├── :
-        │   ├── m-1.png
-        │   └── m.png
+        │   ├── n-1.png
+        │   └── n.png
         └── mpm
             ├── 001                 # Any frame interval
             │   ├── 0000.npy
             │   ├── :
-            │   └── m-1.npy
+            │   └── n-1.npy
             └── 003                 # Any frame interval
             │   ├── 0000.npy
             │   ├── :
-            │   └── m-3.npy
+            │   └── n-3.npy
             └── :                   # Any frame interval
                  ├── :
 ```
 </div></details>
 
 ### Arguments
-1. epochs  
-2. batch size  
-3. dataset directory path
+You can set up input path/output path/parameters from 
+[config/mpm_train.yaml](https://github.com/JunyaHayashida/MPM/blob/master/config/mpm_train.yaml)
+
 ### Example   
 ```
 $ python3 mpm_train.py 100 40 sample/train

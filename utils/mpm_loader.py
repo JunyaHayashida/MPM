@@ -8,21 +8,21 @@ import logging
 import cv2
 import random
 from scipy.ndimage import rotate
-
+from hydra.utils import to_absolute_path as abs_path
 
 class MPM_Dataset(Dataset):
-    def __init__(self, imgs_dir, mpms_dir, itvs=[1]):
-        self.imgs_dir = imgs_dir
-        self.mpms_dir = mpms_dir
-        self.itvs = itvs
-        self.edge = 20
-        self.height, self.width = 256, 256
+    def __init__(self, cfg_type, cfg_data):
+        self.imgs_dir = abs_path(cfg_type.imgs)
+        self.mpms_dir = abs_path(cfg_type.mpms)
+        self.itvs = cfg_type.itvs
+        self.edge = cfg_data.edge
+        self.height, self.width = cfg_data.height, cfg_data.width
 
-        seqs = sorted(glob(join(imgs_dir, '*')))
+        seqs = sorted(glob(join(self.imgs_dir, '*')))
         self.img_paths = []
         self.ids = []
-        min_itv = itvs[0]
-        max_itv = itvs[-1]
+        min_itv = self.itvs[0]
+        max_itv = self.itvs[-1]
         for i, seq in enumerate(seqs):
             seq_name = basename(seq)
             self.img_paths.extend([[path, seq_name] for path in sorted(glob(join(seq, '*')))])

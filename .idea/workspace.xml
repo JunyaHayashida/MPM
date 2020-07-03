@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa406a2c-62d4-4583-af9d-5a1cf491b845" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/mpm_train.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/mpm_generator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/mpm_generator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mpm_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mpm_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/mpm_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/mpm_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mpm_loader.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,11 +15,8 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>transpo</find>
-      <find>blur</find>
-    </findStrings>
+  <component name="FavoritesManager">
+    <favorites_list name="MPM" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -43,7 +42,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.mpm_generator">
+  <component name="RunManager" selected="Python.mpm_train">
     <configuration name="mpm_generator" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MPM" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -57,6 +56,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mpm_generator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="mpm_train" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MPM" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mpm_train.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -89,9 +109,11 @@
     <list>
       <item itemvalue="Python.mpm_generator" />
       <item itemvalue="Python.visualize" />
+      <item itemvalue="Python.mpm_train" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mpm_train" />
         <item itemvalue="Python.mpm_generator" />
         <item itemvalue="Python.visualize" />
       </list>
@@ -115,7 +137,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -133,6 +157,21 @@
           <url>file://$PROJECT_DIR$/mpm_generator.py</url>
           <line>100</line>
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mpm_train.py</url>
+          <line>26</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mpm_train.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/mpm_train.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

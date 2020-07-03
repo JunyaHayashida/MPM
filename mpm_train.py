@@ -17,51 +17,46 @@ from torch.utils.data import DataLoader, random_split
 
 from utils.losses import RMSE_Q_NormLoss
 
-train_img = 'data/train_imgs/'
-val_img = 'data/train_imgs/'
-train_mpm = 'data/train_mpms/'
-val_mpm = 'data/train_mpms/'
-dir_checkpoint = 'checkpoints/'
+import hydra
+from hydra.utils import to_absolute_path as abs_path
 
 def train_net(net,
               device,
-              epochs=5,
-              batch_size=1,
-              lr=0.001,
-              save_cp=True,
-              img_scale=1.0,
-              train_itvs=[1],
-              eval_itvs=[1]):
-    train = MPM_Dataset(train_img, train_mpm, train_itvs)
-    val = MPM_Dataset(val_img, val_mpm, eval_itvs)
+              cfg):
 
-    # # If you train/evaluate with one sequence
-    # n_val = int(len(dataset) * 0.2)
-    # n_train = len(dataset) - n_val
-    # train, val = random_split(dataset, [n_train, n_val])
+    if cfg.eval.imgs is not None:
+        train = MPM_Dataset(cfg.train, cfg.dataloader)
+        val = MPM_Dataset(cfg.eval, cfg.dataloader)
+        n_train = len(train)
+        n_val = len(val)
+    else:
+        dataset = MPMNet(cfg.train)
+        n_val = int(len(dataset) * cfg.eval.rate)
+        n_train = len(dataset) - n_val
+        train, val = random_split(dataset, [n_train, n_val])
 
-    n_train = len(train)
-    n_val = len(val)
+    epochs = cfg.train.epochs
+    batch_size = cfg.train.batch_size
     train_loader = DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
     val_loader = DataLoader(val, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True, drop_last=True)
 
-    writer = SummaryWriter(comment=f'LR_{lr}_BS_{batch_size}_SCALE_{img_scale}')
+    writer = SummaryWriter(comment=f'LR_{cfg.train.lr}_BS_{batch_size}_SCALE_{cfg.train.scale}')
     global_step = 0
 
-    optimizer = optim.Adam(net.parameters(), lr=lr)
+    optimizer = optim.Adam(net.parameters(), lr=cfg.train.lr)
     # scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min' if net.n_classes > 1 else 'max', patience=2)
     criterion = RMSE_Q_NormLoss(0.8)
 
     logging.info(f'''Starting training:
         Epochs:          {epochs}
         Batch size:      {batch_size}
-        Learning rate:   {lr}
+        Learning rate:   {cfg.train.lr}
         Training size:   {len(train)}
         Validation size: {len(val)}
-        Checkpoints:     {save_cp}
+        Checkpoints:     {cfg.output.save}
         Device:          {device.type}
-        Images scaling:  {img_scale}
-        Intervals        {train_itvs}
+        Images scaling:  {cfg.train.scale}
+        Intervals        {cfg.train.itvs}
         Optimizer        {optimizer.__class__.__name__}
         Criterion        {criterion.__class__.__name__}
     ''')
@@ -103,43 +98,21 @@ def train_net(net,
                     logging.info('Validation loss: {}'.format(val_loss))
                     writer.add_scalar('Loss/test', val_loss, global_step)
 
-        if save_cp:
+        if cfg.output.save:
             try:
-                os.mkdir(dir_checkpoint)
+                os.mkdir(cfg.output.dir)
                 logging.info('Created checkpoint directory')
             except OSError:
                 pass
             torch.save(net.state_dict(),
-                       dir_checkpoint + f'CP_epoch{epoch + 1}.pth')
+                       os.path.join(cfg.output.dir, f'CP_epoch{epoch + 1}.pth'))
             logging.info(f'Checkpoint {epoch + 1} saved !')
 
     writer.close()
 
-
-def get_args():
-    parser = argparse.ArgumentParser(description='Train the UNet on images and target masks',
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('-e', '--epochs', metavar='E', type=int, default=300,
-                        help='Number of epochs', dest='epochs')
-    parser.add_argument('-b', '--batch-size', metavar='B', type=int, nargs='?', default=16,
-                        help='Batch size', dest='batchsize')
-    parser.add_argument('-l', '--learning-rate', metavar='LR', type=float, nargs='?', default=0.0001,
-                        help='Learning rate', dest='lr')
-    parser.add_argument('-f', '--load', dest='load', type=str, default=False,
-                        help='Load model from a .pth file')
-    parser.add_argument('-s', '--scale', dest='scale', type=float, default=1,
-                        help='Downscaling factor of the images')
-    parser.add_argument('-i', '--train_intervals', dest='train_itvs', type=list, default=[1, 3, 5, 7, 9],
-                        help='List of frame interval for train')
-    parser.add_argument('-i', '--eval_intervals', dest='eval_itvs', type=list, default=[9],
-                        help='List of frame interval for eval')
-
-    return parser.parse_args()
-
-
-if __name__ == '__main__':
+@hydra.main(config_path='config/mpm_train.yaml')
+def main(cfg):
     logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
-    args = get_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logging.info(f'Using device {device}')
 
@@ -149,23 +122,18 @@ if __name__ == '__main__':
                  f'\t{net.n_classes} output channels\n'
                  f'\t{"Bilinear" if net.bilinear else "Transposed conv"} upscaling')
 
-    if args.load:
+    if cfg.load:
         net.load_state_dict(
-            torch.load(args.load, map_location=device)
+            torch.load(cfg.load, map_location=device)
         )
-        logging.info(f'Model loaded from {args.load}')
+        logging.info(f'Model loaded from {cfg.load}')
 
     net.to(device=device)
 
     try:
         train_net(net=net,
-                  epochs=args.epochs,
-                  batch_size=args.batchsize,
-                  lr=args.lr,
                   device=device,
-                  img_scale=args.scale,
-                  train_itvs=args.train_itvs,
-                  eval_itvs=args.eval_itvs)
+                  cfg=cfg)
     except KeyboardInterrupt:
         torch.save(net.state_dict(), 'INTERRUPTED.pth')
         logging.info('Saved interrupt')
@@ -173,3 +141,6 @@ if __name__ == '__main__':
             sys.exit(0)
         except SystemExit:
             os._exit(0)
+
+if __name__ == '__main__':
+    main()
