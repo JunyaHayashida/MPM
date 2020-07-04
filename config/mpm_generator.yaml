@@ -1,3 +1,5 @@
+# Hydra configuration file for ground-truth generation
+
 file:
   tracklet: 'data_sample/sample_tracklet.txt'   # [frame id x y parent_id(-1 if none)]
   target: 'data_sample/train_img/000.png'       # One of the target images
