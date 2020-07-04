@@ -40,7 +40,7 @@ def train_net(net,
     train_loader = DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
     val_loader = DataLoader(val, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True, drop_last=True)
 
-    writer = SummaryWriter(comment=f'LR_{cfg.train.lr}_BS_{batch_size}_SCALE_{cfg.train.scale}')
+    writer = SummaryWriter(comment=f'LR_{cfg.train.lr}_BS_{batch_size}')
     global_step = 0
 
     optimizer = optim.Adam(net.parameters(), lr=cfg.train.lr)
@@ -55,7 +55,6 @@ def train_net(net,
         Validation size: {len(val)}
         Checkpoints:     {cfg.output.save}
         Device:          {device.type}
-        Images scaling:  {cfg.train.scale}
         Intervals        {cfg.train.itvs}
         Optimizer        {optimizer.__class__.__name__}
         Criterion        {criterion.__class__.__name__}
