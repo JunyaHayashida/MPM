@@ -1,11 +1,11 @@
 file:
-  tracklet: 'data_sample/sample_tracklet.txt'
-  target: 'data_sample/train_img/000.png'
+  tracklet: 'data_sample/sample_tracklet.txt'   # [frame id x y parent_id(-1 if none)]
+  target: 'data_sample/train_img/000.png'       # One of the target images
 
 path:
-  save_path: 'data_sample/train_mpm'
+  save_path: 'data_sample/train_mpm'            # Create directory for each interval
 
 param:
-  z_value: 5
-  sigma: 6
-  itvs: [1,3]
+  z_value: 5                                    # z-axis unit (pixel)
+  sigma: 6                                      # sigma of gaussian filter
+  itvs: [1,3]                                   # MPM intervals (list)
