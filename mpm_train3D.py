@@ -8,10 +8,9 @@ from torch import optim
 from tqdm import tqdm
 
 from mpm_eval import eval_net
-from MPM_Net import MPMNet
-
+from MPM_Net3D import MPMNet3D
 from torch.utils.tensorboard import SummaryWriter
-from utils.mpm_loader import MPM_Dataset
+from utils.mpm_loader import MPM_Dataset3D
 from torch.utils.data import DataLoader, random_split
 
 from utils.losses import RMSE_Q_NormLoss
@@ -24,12 +23,12 @@ def train_net(net,
               cfg):
 
     if cfg.eval.imgs is not None:
-        train = MPM_Dataset(cfg.train, cfg.dataloader)
-        val = MPM_Dataset(cfg.eval, cfg.dataloader)
+        train = MPM_Dataset3D(cfg.train, cfg.dataloader)
+        val = MPM_Dataset3D(cfg.eval, cfg.dataloader)
         n_train = len(train)
         n_val = len(val)
     else:
-        dataset = MPM_Dataset(cfg.train, cfg.dataloader)
+        dataset = MPM_Dataset3D(cfg.train, cfg.dataloader)
         n_val = int(len(dataset) * cfg.eval.rate)
         n_train = len(dataset) - n_val
         train, val = random_split(dataset, [n_train, n_val])
@@ -108,17 +107,17 @@ def train_net(net,
 
     writer.close()
 
-@hydra.main(config_path='config/mpm_train.yaml')
+@hydra.main(config_path='config/mpm_train3D.yaml')
 def main(cfg):
     logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     logging.info(f'Using device {device}')
 
-    net = MPMNet(n_channels=2, n_classes=3, bilinear=True)
-    logging.info(f'Network:\n'
-                 f'\t{net.n_channels} input channels\n'
-                 f'\t{net.n_classes} output channels\n'
-                 f'\t{"Bilinear" if net.bilinear else "Transposed conv"} upscaling')
+    net = MPMNet3D()
+    # logging.info(f'Network:\n'
+    #              f'\t{net.n_channels} input channels\n'
+    #              f'\t{net.n_classes} output channels\n'
+    #              f'\t{"Bilinear" if net.bilinear else "Transposed conv"} upscaling')
 
     if cfg.load:
         net.load_state_dict(
