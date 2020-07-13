@@ -11,18 +11,26 @@ from scipy.ndimage.filters import gaussian_filter
 import hydra
 from hydra.utils import to_absolute_path
 
-def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma):
+def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma, direction='peak'):
     img_lm = zeros[:, :, 0].copy()  # likelihood image
     img_lm[nxt[1], nxt[0]] = 255
     img_lm = gaussian_filter(img_lm, sigma=sigma, mode='constant')
     img_lm = img_lm / img_lm.max()
     points = np.where(img_lm > 0)
     img = zeros.copy()
-    for y, x in zip(points[0], points[1]):
-        v3d = cur - [x, y]
+    if direction == 'peak':
+        for y, x in zip(points[0], points[1]):
+            v3d = cur - [x, y]
+            v3d = np.append(v3d, z_value)
+            v3d = v3d / np.linalg.norm(v3d) * img_lm[y, x]
+            img[y, x] = np.array([v3d[1], v3d[0], v3d[2]])
+
+    if direction == 'parallel':
+        v3d = cur - nxt
         v3d = np.append(v3d, z_value)
-        v3d = v3d / np.linalg.norm(v3d) * img_lm[y, x]
-        img[y, x] = np.array([v3d[1], v3d[0], v3d[2]])
+        v3d = v3d / np.linalg.norm(v3d)
+        img[points] = np.array([v3d[1], v3d[0], v3d[2]])
+        img = img * np.concatenate([img_lm[:,:,None], img_lm[:,:,None],img_lm[:,:,None]], axis=-1)
 
     img_i = result_l - img_lm
     result[img_i < 0] = img[img_i < 0]
@@ -46,6 +54,7 @@ def main(cfg):
     z_value = cfg.param.z_value
     sigma = cfg.param.sigma
     itvs = cfg.param.itvs
+    direction = cfg.direction
 
     frames = np.unique(track_let[:, 0])
     ids = np.unique(track_let[:, 1])
@@ -78,7 +87,7 @@ def main(cfg):
 
                     same_count, result_lm, result = compute_vector(data, dnxt, same_count,
                                                                    result_lm,
-                                                                   result, zeros, z_value, sigma)
+                                                                   result, zeros, z_value, sigma, direction)
 
                 elif ((index_current == 0) & (index_next != 0) & (par_id != -1)):
                     try:
@@ -86,14 +95,14 @@ def main(cfg):
                         dnxt = track_let[(track_let[:, 0] == i + itv) & (track_let[:, 1] == j)][0][2:-1]
                         same_count, result_lm, result = compute_vector(data, dnxt, same_count,
                                                                        result_lm,
-                                                                       result, zeros, z_value, sigma)
+                                                                       result, zeros, z_value, sigma, direction)
                     except IndexError:
                         print('Error: no parent')
                         print(track_let[(track_let[:, 0] == i + itv) & (track_let[:, 1] == j)][0])
 
             result = (result / same_count[:, :, None])
-            save_path = os.path.join(save_dir, f'{idx:04}.npy')
-            np.save(save_path, result.astype('float32'))
+            save_name = os.path.join(save_dir, f'{idx:04}.npy')
+            np.save(save_name, result.astype('float32'))
     print('finished')
 
 
