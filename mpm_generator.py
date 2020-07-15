@@ -11,6 +11,7 @@ from scipy.ndimage.filters import gaussian_filter
 import hydra
 from hydra.utils import to_absolute_path
 
+
 def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma, direction='peak'):
     img_lm = zeros[:, :, 0].copy()  # likelihood image
     img_lm[nxt[1], nxt[0]] = 255
@@ -30,7 +31,7 @@ def compute_vector(cur, nxt, same_count, result_l, result, zeros, z_value, sigma
         v3d = np.append(v3d, z_value)
         v3d = v3d / np.linalg.norm(v3d)
         img[points] = np.array([v3d[1], v3d[0], v3d[2]])
-        img = img * np.concatenate([img_lm[:,:,None], img_lm[:,:,None],img_lm[:,:,None]], axis=-1)
+        img = img * img_lm[:, :, None]
 
     img_i = result_l - img_lm
     result[img_i < 0] = img[img_i < 0]
