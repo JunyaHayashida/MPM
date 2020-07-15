@@ -3,15 +3,15 @@
 train:
   imgs: 'data/train_imgs/'    #
   mpms: 'data/train_mpms/'    #
-  itvs: [1]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
-  epochs: 10                  # Number of epoch
-  batch_size: 1               # Batch size
+  itvs: [1, 3, 5, 7, 9]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
+  epochs: 300                  # Number of epoch
+  batch_size: 16               # Batch size
   lr: 0.0001                  # Learning rate of Adam
 
 eval:
   imgs: 'data/eval_imgs/'     # None is OK. In that case, eval.rate in the training data is used for evaluation.
-  mpms: 'data/eval_mpms/'     # None is OK
-  itvs: [1]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
+  mpms: 'data/eval_mpms_parallel/'     # None is OK
+  itvs: [9]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
   rate: 0.2                   # Evaluation rate for no eval data
 
 output:
@@ -24,3 +24,6 @@ dataloader:
   edge: 10                    # Image edge range (This area will not be cropped)
   height: 256                 # Number of pixel of crop height
   width: 256                  # Number of pixel of crop width
+
+info:
+  direction: parallel         # Direction type of MPM

@@ -1,13 +1,16 @@
 # Hydra configuration file for ground-truth generation
 
 file:
-  tracklet: 'data_sample/sample_tracklet.txt'   # [frame id x y parent_id(-1 if none)]
-  target: 'data_sample/train_img/000.png'       # One of the target images
+  tracklet: 'data_sample/sample_tracklet.txt'                     # [frame id x y parent_id(-1 if none)]
+  target: 'data_sample/train_imgs/sample_sequence/0000.png'       # One of the target images
 
 path:
-  save_path: 'data_sample/train_mpm'            # Create directory for each interval
+  save_path: 'data_sample/train_mpms/sample_sequence/'            # Create directory for each interval
 
 param:
   z_value: 5                                    # z-axis unit (pixel)
   sigma: 6                                      # sigma of gaussian filter
-  itvs: [1,3]                                   # MPM intervals (list)
+  itvs: [1, 3, 5, 7, 9]                         # MPM intervals (list), e.g. [1], [3, 5], [1, 2, 3], ...
+
+direction: 'parallel'
+# direction: 'peak'
