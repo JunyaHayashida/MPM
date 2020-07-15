@@ -17,7 +17,7 @@ from torch.utils.data import DataLoader, random_split
 from utils.losses import RMSE_Q_NormLoss
 
 import hydra
-
+from hydra.utils import to_absolute_path
 
 def train_net(net,
               device,
@@ -39,7 +39,7 @@ def train_net(net,
     train_loader = DataLoader(train, batch_size=batch_size, shuffle=True, num_workers=8, pin_memory=True)
     val_loader = DataLoader(val, batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True, drop_last=True)
 
-    writer = SummaryWriter(comment=f'LR_{cfg.train.lr}_BS_{batch_size}')
+    writer = SummaryWriter(log_dir=to_absolute_path('./logs'), comment=f'LR_{cfg.train.lr}_BS_{batch_size}')
     global_step = 0
 
     optimizer = optim.Adam(net.parameters(), lr=cfg.train.lr)
