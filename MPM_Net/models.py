@@ -1,9 +1,10 @@
 """ Full assembly of the parts to form the complete network """
 
 import torch.nn.functional as F
+import torch
 
-from .model_parts import *
-
+from MPM_Net.model_parts import *
+import matplotlib.pyplot as plt
 
 class MPMNet(nn.Module):
     def __init__(self, n_channels, n_classes, bilinear=True):
