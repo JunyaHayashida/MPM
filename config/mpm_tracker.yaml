@@ -1,0 +1,17 @@
+path:
+  model: '/home/junya/Research/M1/TrackACM/Python/NN/UNetACM/checkpoints/201911071646_[1, 3, 5, 7, 9]/CP273.pth'
+  img_dir: '/home/junya/Research/Dataset/C2C12/sequence/01/cell/'
+  save_dir: ''
+
+param:
+  mag_min: 0.1
+  mag_max: 0.9
+  itv_th: 20
+  z_value: 5
+  sigma: 3
+
+  MAG_MIN = cfg.param.mag_min
+  MAG_MAX = cfg.param.mag_max
+  ITV_TH = cfg.param.itv_th
+  Z_VALUE = cfg.param.z_value
+  SIGMA = cfg.param.sigma

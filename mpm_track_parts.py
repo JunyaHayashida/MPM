@@ -45,7 +45,7 @@ class trackp():
         img = torch.from_numpy(img).unsqueeze(0)
         img = img.cuda()
         output = model(img)
-        mpm = output[0][0].cpu().detach().numpy()
+        mpm = output[0].cpu().detach().numpy()
         return np.transpose(mpm, axes=[1, 2, 0])
 
     def getMPMpoints(self, mpm, mag, mag_max=1.0):
